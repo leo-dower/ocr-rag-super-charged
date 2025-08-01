@@ -479,6 +479,9 @@ class PDFProcessorApp(tk.Tk):
             
             docx_success = self._generate_docx(file_path, output_dir, paragraphs)
             json_success = self._generate_json(file_path, output_dir, text, paragraphs)
+
+            if self.save_as_md_var.get():
+                MarkdownFormatter.save_as_markdown(output_dir, os.path.basename(file_path), text)
             
             if self.generate_summary_var.get() and docx_success:
                 docx_path = os.path.join(output_dir, f"{os.path.splitext(os.path.basename(file_path))[0]}.docx")
