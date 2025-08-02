@@ -1,0 +1,9 @@
+python-docx
+pandas
+mistralai
+pdfminer.six
+pytesseract
+Pillow
+pdf2image
+beautifulsoup4
+requests
