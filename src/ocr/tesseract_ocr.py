@@ -59,4 +59,3 @@ class TesseractOCR(BaseOCRProcessor):
             else:
                 processed_words.append(word_text)
         return processed_words
-words
