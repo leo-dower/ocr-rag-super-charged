@@ -6,6 +6,7 @@ import uuid
 import logging
 from typing import Dict
 from ..core.base_ocr import BaseOCRProcessor, MIN_TEXT_LENGTH
+import configparser
 
 MISTRAL_OCR_API_URL = "https://api.mistral.ai/v1/ocr"
 
