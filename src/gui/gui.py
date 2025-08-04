@@ -77,6 +77,15 @@ class PDFProcessorApp(tk.Tk):
         self._create_controls(left_frame)
         self._create_progress_bar(left_frame)
 
+        # Painel de Pré-visualização
+        preview_frame = ttk.LabelFrame(right_frame, text="Pré-visualização do Texto Extraído")
+        preview_frame.pack(fill='both', expand=True, padx=5, pady=5)
+
+        self.preview_text = scrolledtext.ScrolledText(preview_frame, state='disabled', wrap=tk.WORD)
+        self.preview_text.pack(fill='both', expand=True, padx=5, pady=5)
+
+        ttk.Button(preview_frame, text="Limpar Pré-visualização", command=self._clear_preview).pack(pady=5)
+
     def _create_api_status_frame(self, parent_frame):
         status_frame = ttk.LabelFrame(parent_frame, text="Status da API")
         status_frame.pack(fill='x', padx=10, pady=5)
@@ -486,6 +495,13 @@ class PDFProcessorApp(tk.Tk):
             if self.generate_summary_var.get() and docx_success:
                 docx_path = os.path.join(output_dir, f"{os.path.splitext(os.path.basename(file_path))[0]}.docx")
                 self._generate_summary_and_toc(docx_path, text)
+
+            # Atualiza a pré-visualização
+            self.preview_text.configure(state='normal')
+            self.preview_text.insert(tk.END, f"--- {file_name} ---\n")
+            self.preview_text.insert(tk.END, text + "\n\n")
+            self.preview_text.see(tk.END)
+            self.preview_text.configure(state='disabled')
             
             return docx_success and json_success
             
@@ -577,3 +593,8 @@ class PDFProcessorApp(tk.Tk):
                 self.api_connection_label.config(text="Desconectado", foreground="red")
         
         self.after(2000, self._update_api_stats)
+
+    def _clear_preview(self):
+        self.preview_text.configure(state='normal')
+        self.preview_text.delete(1.0, tk.END)
+        self.preview_text.configure(state='disabled')
